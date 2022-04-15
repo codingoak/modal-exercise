@@ -1,8 +1,30 @@
 <template>
   <h1>{{ title }}</h1>
+  <p>Welcome...</p>
+  <teleport to=".modals" v-if="showModal">
+    <Modal theme="sale" @close="toggleModal">
+      <template v-slot:links>
+        <a href="#">sign up now</a>
+        <a href="#">more info</a>
+      </template>
+      <h1>Ninja Givaway!</h1>
+      <p>Grab your ninja swag for half price!</p>
+    </Modal>
+  </teleport>
+
+  <teleport to=".modals" v-if="showModalTwo">
+    <Modal @close="toggleModalTwo">
+      <h1>Sign up to the newsletter</h1>
+      <p>For updates ans promo codes!</p>
+    </Modal>
+  </teleport>
+
+  <button @click.prevent="toggleModal">open modal</button>
+  <button @click.prevent="toggleModalTwo">open modal two</button>
+  <br />
+
   <input type="text" ref="name" />
   <button @click="handleClick">click me</button>
-  <Modal />
 </template>
 
 <script>
@@ -16,6 +38,8 @@ export default {
   data() {
     return {
       title: 'My first Vue App :)',
+      showModal: false,
+      showModalTwo: false,
     };
   },
   methods: {
@@ -24,12 +48,19 @@ export default {
       this.$refs.name.classList.add('active');
       this.$refs.name.focus();
     },
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    toggleModalTwo() {
+      this.showModalTwo = !this.showModalTwo;
+    },
   },
 };
 </script>
 
 <style>
-#app {
+#app,
+.modals {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,5 +72,11 @@ h1 {
   border-bottom: 1px solid #ddd;
   display: inline-block;
   padding-bottom: 10px;
+}
+button {
+  margin: 10px;
+}
+input {
+  margin-top: 50px;
 }
 </style>
